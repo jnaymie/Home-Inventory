@@ -1,0 +1,263 @@
+:root
+{
+  --button-default: rgb(220, 220, 220);
+  --button-hover: rgb(200, 200, 200);
+  --button-active: rgb(240, 240, 240);
+  --main-blue: rgb(170, 226, 230);
+  --secondary-gray: #d4d4d4;
+  --highlight-red: rgb(232, 27, 35);
+  --highlight-yellow: rgb(255, 217, 92);
+}
+
+/*----- MISC -----*/
+
+.nomargin
+{
+    margin: 0;
+}
+
+.inputspacing
+{
+    margin-top: 6px;
+}
+
+.hidden
+{
+    opacity: 0;
+}
+
+hr.page-break
+{
+    width: 100%;
+    margin: 25px;
+}
+
+hr.input-above
+{
+    margin-top: 12px;
+}
+
+/*----- ELEMENTS -----*/
+
+.element__logo
+{
+    font-family: logofont;
+    word-spacing: 10px;
+    font-size: 60px;
+}
+
+.element__sign-in
+{
+    font-family: mainfont;
+    text-decoration: underline;
+    font-size: 30px;
+    margin: 0 0 20px 0;
+}
+
+/*----- USERNAME -----*/
+
+.username__display
+{
+    margin: 0 0 15px 0;
+    /*font-size: 16px;*/
+}
+
+.username__link
+{
+    color: rgb(55, 73, 200);
+    text-decoration: none;
+}
+
+/*----- INPUT - BUTTON -----*/
+
+.input__button__base
+{
+    width: 250px;
+    height: 30px;
+    box-sizing: border-box;
+    font-family: fancyfont;
+    font-size: 18px;
+    background-color: var(--button-default);
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 8px;
+    border-color: #575757;
+}
+
+.input__button__base:hover
+{
+    background-color: var(--button-hover);
+    text-decoration: underline;
+}
+
+.input__button__base:active
+{
+    background-color: var(--button-active);
+    text-decoration: underline;
+}
+
+/*-----INPUT - MESSAGE-----*/
+
+.input__message__base
+{
+    align-self: center;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0;
+    border-radius: 0 0 8px 8px;
+    color: white;
+    padding: 0px 8px 2px 8px;
+    transition: opacity 0.33s;
+}
+
+.input__message__default
+{
+    color: black;
+    background-color: var(--secondary-gray);
+    transition: opacity 0.33s;
+}
+
+.input__message__alert
+{
+    background-color: var(--highlight-red);
+    transition: opacity 0.33s;
+}
+
+.input__message__warning
+{
+    color: black;
+    background-color: var(--highlight-yellow);
+    transition: opacity 0.33s;
+}
+
+/*-----INPUT - TEXTBOT-----*/
+
+.input__textbox__base
+{
+    text-align: center;
+    width: 250px;
+    height: 30px;
+    margin: 0;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border-width: 3px;
+    border-style: solid;
+    outline: none !important;
+    transition: border-color 0.33s;
+}
+
+.input__textbox__default
+{
+    border-color: var(--secondary-gray);
+    transition: border-color 0.33s;
+}
+
+.input__textbox__alert
+{
+    border-color: var(--highlight-red);
+    transition: border-color 0.33s;
+}
+
+.input__textbox__warning
+{
+    border-color: var(--highlight-yellow);
+    transition: border-color 0.33s;
+}
+
+/*----- INPUT - LABEL -----*/
+
+.input__label
+{
+    margin: 0 0 0 10px;
+    font-family: fancyfont;
+}
+
+/*----- LOGIN MESSAGE -----*/
+
+.login-message
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 12px;
+    border-color: var(--highlight-red);
+    width: 300px;
+    padding: 15px 0 15px 0;
+    margin-bottom: 20px;
+}
+
+.login-message img
+{
+    margin: 5px;
+}
+
+/*----- PAGE STRUCTURE -----*/
+
+.structure__main-section
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--main-blue);
+    border-radius: 20px;
+    width: 300px;
+    padding: 20px;
+}
+
+.structure__center-align
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.structure__form
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.structure__input-group
+{
+    display: flex;
+    flex-direction: column
+}
+
+/*----- FONTS -----*/
+
+/*https://www.dafont.com/dymaxion-script.font*/
+@font-face
+{
+    font-family: 'logofont';
+    src: url('../content/fonts/dymaxion_script.woff2') format('woff2'),
+         url('../content/fonts/dymaxion_script.woff')  format('woff'),
+         url('../content/fonts/dymaxion_script.ttf')   format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face
+{
+    font-family: 'mainfont';
+    src: url('../content/fonts/oregano.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face
+{
+    font-family: 'fancyfont';
+    src: url('../content/fonts/oregano.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
