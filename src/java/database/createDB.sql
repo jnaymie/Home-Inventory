@@ -90,7 +90,7 @@ INSERT INTO `users` (`Email`,`Password`,`Phone`,`FirstName`,`LastName`,`Active`,
 INSERT INTO `users` (`Email`,`Password`,`Phone`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('admin2@asd.as','password','1112223333','Admin2','Admin2',0,1);
 INSERT INTO `users` (`Email`,`Password`,`Phone`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('anne@asd.as','password','8005551829','Anne','Annerson',1,0);
 INSERT INTO `users` (`Email`,`Password`,`Phone`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('barb@asd.as','password','6873542222','Barb','Barber',0,0);
-INSERT INTO `users` (`Email`,`Password`,`Phone`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('don@asd.as','password','8005551829','don','Donerson',1,0);
+INSERT INTO `users` (`Email`,`Password`,`Phone`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('don@asd.as','password','8005551828','don','Donerson',1,0);
 INSERT INTO `users` (`Email`,`Password`,`Phone`,`FirstName`,`LastName`,`Active`,`IsAdmin`) VALUES ('carl@asd.as','password','6873542222','Carl','Carler',0,0);
 
 INSERT INTO `items` (`Category`,`ItemName`,`Price`,`Owner`) VALUES (1,'blender',29.99,'anne@asd.as');

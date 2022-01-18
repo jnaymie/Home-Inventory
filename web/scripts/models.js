@@ -10,87 +10,87 @@ var inputStyles = ["input__textbox__default",
 
 //-------------------------
 
-class InputGroup
-{
-    constructor(label, input, message)
-    {
-        this.label = label;
-        this.input = input;
-        this.message = message;
-    }
-    
-    //-------------------------
-    
-    setGroupState(state)
-    {
-        switch(state)
-        {
-            case "default":
-                this.setElementClass(this.input, "input__textbox__default");
-                this.setElementClass(this.message, "input__message__default");
-                this.message.classList.add("hidden");
-                break;
-            
-            case "alert":
-                this.setElementClass(this.input, "input__textbox__alert");
-                this.setElementClass(this.message, "input__message__alert");
-                this.message.classList.remove("hidden");
-                break;
-                
-            case "warning":
-                this.setElementClass(this.input, "input__textbox__warning");
-                this.setElementClass(this.message, "input__message__warning");
-                this.message.classList.remove("hidden");
-                break;
-        }
-    }
-    
-    //-------------------------
-    
-    setMessageText(text)
-    {
-        this.message.innerHTML = text;
-    }
-    
-    //-------------------------
-    
-    setLabelText(text)
-    {
-        this.label.innterHtml = text;
-    }
-    
-    //-------------------------
-    
-    setInputText(text)
-    {
-        this.input.value = text;
-    }
-    
-    //-------------------------
-    
-    setElementClass(element, cssClass)
-    {
-        for(var i=0; i<inputStyles.length; i++)
-        {
-            element.classList.remove(inputStyles[i]);
-        }
-        element.classList.add(cssClass);
-    }
-    
-    //-------------------------
-    
-    addInputListener(action, method)
-    {
-        this.input.addEventListener(action, method);
-    }
-    
-    //-------------------------
-    
-    getInputText()
-    {
-        return this.input.value;
-    }
-}
+//class InputGroup
+//{
+//    constructor(label, input, message)
+//    {
+//        this.label = label;
+//        this.input = input;
+//        this.message = message;
+//    }
+//    
+//    //-------------------------
+//    
+//    setGroupState(state)
+//    {
+//        switch(state)
+//        {
+//            case "default":
+//                this.setElementClass(this.input, "input__textbox__default");
+//                this.setElementClass(this.message, "input__message__default");
+//                this.message.classList.add("hidden");
+//                break;
+//            
+//            case "alert":
+//                this.setElementClass(this.input, "input__textbox__alert");
+//                this.setElementClass(this.message, "input__message__alert");
+//                this.message.classList.remove("hidden");
+//                break;
+//                
+//            case "warning":
+//                this.setElementClass(this.input, "input__textbox__warning");
+//                this.setElementClass(this.message, "input__message__warning");
+//                this.message.classList.remove("hidden");
+//                break;
+//        }
+//    }
+//    
+//    //-------------------------
+//    
+//    setMessageText(text)
+//    {
+//        this.message.innerHTML = text;
+//    }
+//    
+//    //-------------------------
+//    
+//    setLabelText(text)
+//    {
+//        this.label.innterHtml = text;
+//    }
+//    
+//    //-------------------------
+//    
+//    setInputText(text)
+//    {
+//        this.input.value = text;
+//    }
+//    
+//    //-------------------------
+//    
+//    setElementClass(element, cssClass)
+//    {
+//        for(var i=0; i<inputStyles.length; i++)
+//        {
+//            element.classList.remove(inputStyles[i]);
+//        }
+//        element.classList.add(cssClass);
+//    }
+//    
+//    //-------------------------
+//    
+//    addInputListener(action, method)
+//    {
+//        this.input.addEventListener(action, method);
+//    }
+//    
+//    //-------------------------
+//    
+//    getInputText()
+//    {
+//        return this.input.value;
+//    }
+//}
 
 //ITEM
 //-----------------------------------

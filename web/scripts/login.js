@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', load, false);
 const usernameValidation = (input) => { return (REGEX_PHONE.test(input) || REGEX_EMAIL.test(input)); };
 const usernameSubmission = (e) => { if(e.keyCode === 13) { e.preventDefault(); userIDButtonPressed(); }; };
 
+
 const MESSAGE_REQUIRED = "required";
 const MESSAGE_INVALID = "invalid";
 const UI_USERNAME = "username";
@@ -19,12 +20,33 @@ var userIdInput,
     loginArea,
     userNameDisplay;
     
-var serverResponse;
+var currentState,
+    serverResponse,
+    hasLoginArea;
 
 //-------------------------
+var a = 0;
+function setUIFromState(event)
+{
+    console.log(event.state.current);
+    if(event.state != null)
+    {
+        switch(event.state.current)
+        {
+            case UI_PASSWORD:
+                if(!trySwitchPassword())
+                {
+                    history.back();
+                }
+                break;
+        }
+//        switchUI(event.state.current);
+    }
+}
 
 function load()
 {
+    window.addEventListener("popstate", setUIFromState);
     uiArea = document.getElementById("ui-area");
     mainDiv = document.getElementById("content-area");
     loginArea = document.createElement("div");
@@ -32,13 +54,16 @@ function load()
     switch(pageState)
     {
         case "login":
-            uiArea.style.maxHeight = "244px";
-            uiArea.style.minHeight = "244px";
+            hasLoginArea = true;
+            currentState = UI_USERNAME;
+            uiArea.classList.add("login-height");
             createLoginArea();
             createUsernameArea();
             break;
         
         case "signup":
+            hasLoginArea = false;
+            currentState = UI_SIGNUP;
             uiArea.classList.add("signup-height");
             createSignupArea();
             break;
@@ -47,6 +72,8 @@ function load()
             throw `Invalid page state - ${pageState}`;
             break;
     }
+    
+//    history.replaceState({ current: `${currentState}`}, "asd");
     
     
 //    if(userFound)
@@ -97,8 +124,22 @@ function load()
 //    }
 }
 
+function trySwitchPassword()
+{
+    if(serverResponse != null
+    && serverResponse.userFound)
+    {
+        console.log("TRUE");
+        createPasswordArea(serverResponse.userId);
+        return true;
+    }
+    console.log("FALSE");
+    return false;
+}
+
 function createLoginArea()
 {
+    loginArea = document.createElement("div");
     mainLabel = document.createElement("p");
     mainLabel.innerText = "Sign in";
     mainLabel.classList.add("element__sign-in");
@@ -132,7 +173,7 @@ function createUsernameArea()
     newAccountButton = new Button(CSS_BUTTON_BASE);
     newAccountButton.setContent("Signup");
     newAccountButton.addClass(CSS_INPUT_SPACING);
-    newAccountButton.setOnClick(() => { window.location.href = "signup"; } );
+    newAccountButton.setOnClick(() => { setUI(UI_SIGNUP) });
     usernameArea.appendChild(newAccountButton.button);
     
     loginArea.appendChild(usernameArea);
@@ -187,13 +228,81 @@ function createPasswordArea(userId)
     
     let passwordSubmit = new Button(CSS_BUTTON_BASE);
     passwordSubmit.setContent("Login");
-    passwordSubmit.setOnClick(() => {postAction("login", "loginform", "login");});
+    passwordSubmit.setOnClick(passwordButtonPressed);
     
     loginForm.appendChild(passwordSubmit.button);
     
     loginArea.appendChild(loginForm);
+}
+
+function createSignupArea()
+{
+    let nameInput = new InputGroup(CSS_MAIN_INPUT, "user-name"),
+        emailInput = new InputGroup(CSS_MAIN_INPUT, "user-email"),
+        phoneInput = new InputGroup(CSS_MAIN_INPUT, "user-phone"),
+        password1Input = new InputGroup(CSS_MAIN_INPUT, "user-pass1"),
+        password2Input = new InputGroup(CSS_MAIN_INPUT, "user-pass2"),
+        inputCollection = new InputGroupCollection(),
+        submitButton = new Button(CSS_BUTTON_BASE);
     
+    let creator = new DocumentFragment();
     
+    let header = document.createElement("p");
+    header.classList.add("element__sign-in");
+    header.innerText = "Create Account";
+    creator.appendChild(header);
+    
+    let form = document.createElement("form");
+    form.id = "signup-form";
+    form.method = "POST";
+    form.classList.add("structure__form");
+    
+    inputCollection.add(nameInput);
+    inputCollection.add(emailInput);
+    inputCollection.add(phoneInput);
+    inputCollection.add(password1Input);
+    inputCollection.add(password2Input);
+    
+    nameInput.setLabelText("Name:");
+    nameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
+    nameInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
+    nameInput.setEnterFunction(emailInput);
+    form.appendChild(nameInput.container);
+    
+    form.appendChild(new PageBreak(CSS_PAGE_BREAK).pageBreak);
+    
+    emailInput.setLabelText("Email:");
+    emailInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
+    emailInput.addValidator(REGEX_EMAIL, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
+    emailInput.setEnterFunction(phoneInput);
+    form.appendChild(emailInput.container);
+    
+    phoneInput.setLabelText("Phone:");
+    phoneInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
+    phoneInput.addValidator(REGEX_PHONE, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
+    phoneInput.setEnterFunction(password1Input);
+    form.appendChild(phoneInput.container);
+    
+    form.appendChild(new PageBreak(CSS_PAGE_BREAK).pageBreak);
+    
+    password1Input.setLabelText("Password:");
+    password1Input.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
+    password1Input.setEnterFunction(password2Input);
+    form.appendChild(password1Input.container);
+    
+    password2Input.setLabelText("Confirm password:");
+    password2Input.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
+    password2Input.setEnterFunction(password2Input);
+    form.appendChild(password2Input.container);
+    
+    form.appendChild(new PageBreak(CSS_PAGE_BREAK).pageBreak);
+    
+    submitButton.setContent("Sign up");
+    submitButton.setOnClick(() => {console.log("TEST")});
+    form.appendChild(submitButton.button);
+    
+    creator.appendChild(form);
+    mainDiv.appendChild(creator);
 }
 
 //-------------------------
@@ -260,7 +369,7 @@ function userIDButtonPressed()
 
 function getServerResponse()
 {
-    if(request.readyState===4)
+    if(request.readyState === 4)
     {
 //        console.log(request.responseText);
         serverResponse = JSON.parse(request.responseText);
@@ -268,7 +377,7 @@ function getServerResponse()
         if(serverResponse.userFound)
         {
 //            setTimeout(() => {switchUI(UI_PASSWORD)}, 5000);
-            switchUI(UI_PASSWORD);
+            setUI(UI_PASSWORD);
 //            removeAllChildren(loginArea);
 //            createPasswordArea(serverResponse.userId);
 //            uiArea.classList.add("fade-out");
@@ -282,6 +391,36 @@ function getServerResponse()
     }
 }
 
+function setUI(uiType)
+{
+    switch(uiType)
+    {
+        case UI_USERNAME:
+            window.history.pushState({ current: UI_USERNAME },"Login","/homeinventory/login");
+            currentState = UI_USERNAME;
+            switchUI(UI_USERNAME);
+            break;
+            
+        case UI_PASSWORD:
+            window.history.pushState({ current: UI_PASSWORD },"Login","/homeinventory/login");
+            currentState = UI_PASSWORD;
+            switchUI(UI_PASSWORD);
+            break;
+            
+        case UI_SIGNUP:
+            window.history.pushState({ current: UI_SIGNUP },"Login","/homeinventory/signup");
+            currentState = UI_SIGNUP;
+            switchUI(UI_SIGNUP);
+            break;
+            
+        default:
+            throw `Invalid uiType - ${uiType}`;
+            break;
+    }
+    console.log(history);
+//    window.history.pushState(currentState,"Signup","/homeinventory/signup");
+}
+
 function switchUI(uiType)
 {
 //    uiArea.addEventListener("transitionend", f = (uiType) => {
@@ -289,14 +428,43 @@ function switchUI(uiType)
         switch(uiType)
         {
             case UI_USERNAME:
-                setTimeout(() => { removeAllChildren(loginArea); createUsernameArea(); fadeIn(loginArea); }, fadeOut(loginArea));
+                setTimeout(() => {
+                    if(hasLoginArea)
+                    {
+                        removeAllChildren(loginArea);
+                    }
+                    else
+                    {
+                        removeAllChildren(mainDiv);
+                        createLoginArea();
+                    }
+                    uiArea.classList.add("login-height");
+                    uiArea.classList.remove("signup-height");
+                    createUsernameArea();
+                    setTimeout(() => {  fadeIn(hasLoginArea ? loginArea : mainDiv); hasLoginArea = true; }, 500);
+                }, fadeOut(hasLoginArea ? loginArea : mainDiv));
+                
                 break;
 
             case UI_PASSWORD:
-                setTimeout(() => { removeAllChildren(loginArea); createPasswordArea(); fadeIn(loginArea); }, fadeOut(loginArea));
+                setTimeout(() => {
+                    removeAllChildren(hasLoginArea ? loginArea : mainDiv);
+                    uiArea.classList.add("login-height");
+                    uiArea.classList.remove("signup-height");
+                    createPasswordArea();
+                    setTimeout(() => {  fadeIn(hasLoginArea ? loginArea : mainDiv); hasLoginArea = true;}, 500);
+                }, fadeOut(hasLoginArea ? loginArea : mainDiv));
+                   
                 break;
 
-            case SIGNUP:
+            case UI_SIGNUP:
+                
+                setTimeout(() => {
+                    removeAllChildren(mainDiv);
+                    uiArea.classList.remove("login-height");
+                    uiArea.classList.add("signup-height");
+                    setTimeout(() => { createSignupArea(); fadeIn(mainDiv); hasLoginArea = false;}, 500);
+                }, fadeOut(mainDiv));
                 
                 break;
             
@@ -333,18 +501,13 @@ function newAccountButtonPressed()
     postAction("newaccount", "loginform", "login");
 }
 
-function userPasswordButtonPressed()
+function passwordButtonPressed()
 {
-    console.log("ssss");
-    if(inputIsEmpty(passwordInput.getInputText()))
+//    console.log("ssss");
+//    console.log(passwordInput.validateInput());
+    if(passwordInput.validateInput())
     {
-        
-        passwordInput.setMessageText("required");
-        passwordInput.setGroupState("alert");
-    }
-    else
-    {
-        console.log("login");
+//        console.log("login");
         postAction("login", "loginform", "login");
     }
 }

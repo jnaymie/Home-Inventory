@@ -42,7 +42,7 @@ public class InventoryServlet extends HttpServlet
         try
         {
 //            User user = accountService.get((String) session.getAttribute("username"));
-            String userID = (String) session.getAttribute("userID");
+            String userID = (String) session.getAttribute(Global.USER_ID);
             request.setAttribute("generatedVars", generateJavaScriptVars(userID));
             request.setAttribute("user", accountService.get(userID));
             request.setAttribute("categories", inventoryService.getAllCategories());
@@ -240,7 +240,7 @@ public class InventoryServlet extends HttpServlet
                                                              request.getParameter("name_input"),
                                                              request.getParameter("price_input"),
                                                              request.getParameter("category_input"),
-                                                    (String) request.getSession().getAttribute("userID")))
+                                                    (String) request.getSession().getAttribute(Global.USER_ID)))
             {
                 case EMPTY_INPUT:
                     System.out.println("empty-update");

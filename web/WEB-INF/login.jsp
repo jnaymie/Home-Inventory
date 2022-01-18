@@ -14,14 +14,25 @@
          <script src="scripts/login.js"></script>
          <script src="scripts/models.js"></script>
          <script src="scripts/functions.js"></script>
-         <script>var userFound = ${userFound}${scriptParams}; </script>
+         <script src="scripts/inputgroup.js"></script>
+         <script src="scripts/inputgroupcollection.js"></script>
+         <script src="scripts/validator.js"></script>
+         <script src="scripts/regexs.js"></script>
+         <script src="scripts/loadinganim.js"></script>
+         <script src="scripts/button.js"></script>
+         <script src="scripts/pagebreak.js"></script>
+         <script src="scripts/cssconstants.js"></script>
+         <script>var pageState = ${pageState};</script>
          <script type="text/javascript" src="scripts/test.jsp"></script>
 
         <link rel="stylesheet" type="text/css" href="styles/styles.css" />
+        <link rel="stylesheet" type="text/css" href="styles/loadinganim.css" />
+
         <title>Login</title>
     </head>
-    <body onload="load();">
+    <body>
         <div class="structure__center-align">
+            <div id="temp"></div>
             <p class="element__logo">Home       nVentory</p>
             
             <c:if test="${alertMessage != null}">
@@ -38,28 +49,37 @@
                 </div>
             </c:if>
             
-            <div class="structure__main-section">
-                <p id="signin" class="element__sign-in">Sign in</p>
-                <c:if test="${userFound == false}">
-                    <form id="loginform" class="structure__form" method="POST">
-                        <div class='structure__input-group'>
+            <div id="ui-area" class="structure__main-section">
+                <div id="content-area">
+                    
+                </div>
+                <!--<p id="signin" class="element__sign-in">Sign in</p>-->
+                <form id="login-form" class="structure__form" method="POST">
+                    <div id="login-area">
+                    </div>
+                </form>
+                <%--<c:if test="${userFound == false}">--%>
+<!--                    <form id="loginform" class="structure__form" method="POST">
+                        <div id="ui-area">
+                            <div id="username-input-area" class='structure__input-group'>
                             <input id="login_type" name="login_type" type="hidden">
                             <p class="input__label">Email or phone number</p>
                             <input id="user-id__input" name="user-id__input" class="input__textbox__base input__textbox__default" type="text"/>
                             <p id="user-id__message" class='input__message__base input__message__default hidden'>-</p>
-                        </div>
-                        <button id="user-id__button-continue" type='button' class="inputspacing input__button__base" type="button" value="contiue">Continue</button>
-                        
-                        <hr class="page-break">
-                        <button id="user-id__button-signup" class="input__button__base" type="button" value="newaccount">New Account</button>
-                        <input id="action" name='action' type="hidden">
-                    </form>
-                </c:if>
+                            </div>
+                            <button id="user-id__button-continue" class="inputspacing input__button__base" type="button" value="contiue">Continue</button>
+
+                            <hr class="page-break">
+                            <button id="user-id__button-signup" class="input__button__base" type="button" value="newaccount">New Account</button>
+                            <input id="action" name='action' type="hidden">
+                            </div>
+                    </form>-->
+                <%--</c:if>--%>
                 
                 <!------------------------>
                 
-                <c:if test="${userFound == true}">
-                    <form id="loginform" class="structure__form" method="POST">
+                <%--<c:if test="${userFound == true}">--%>
+<!--                    <form id="loginform" class="structure__form" method="POST">
                         <p class="username__display">${userID} <a class='username__link' href="/homenventory/login">Change</a></p>
                         
                         <div class='structure__input-group inputspacing'>
@@ -72,8 +92,8 @@
                         <button id="user-password__button" class="input__button__base" name="user-password__button" type="button" value="contiue">Sign in</button>
                         <input id="action" name='action' type="hidden">
                         <input id="userID" name='userID' type="hidden" value="${userID}">
-                    </form>
-                </c:if>
+                    </form>-->
+                <%--</c:if>--%>
             </div>
         </div>
     </body>

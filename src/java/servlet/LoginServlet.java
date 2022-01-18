@@ -8,7 +8,7 @@ package servlet;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
-import model.User;
+import model.*;
 import service.AccountService;
 
 /**
@@ -22,7 +22,8 @@ public class LoginServlet extends HttpServlet
            USER_FOUND = "userFound",
            WARNING_MESSAGE = "warningMessage",
            ALERT_MESSAGE = "alertMessage",
-           USER_ID = "userID",
+           USER_ID = "user-id-input",
+           PAGE_STATE = "pageState",
             
            PARAMS_FORMAT = ", userIDInputState = %s";
     
@@ -45,6 +46,22 @@ public class LoginServlet extends HttpServlet
         {
             request.setAttribute("message", "Logout succesful!");
         }
+        
+        switch(request.getServletPath())
+        {
+            case "/login":
+                request.setAttribute(PAGE_STATE, "\"login\"");
+                break;
+                
+            case "/signup":
+                request.setAttribute(PAGE_STATE, "\"signup\"");
+                break;
+                
+            default:
+                request.setAttribute(PAGE_STATE, "WRONG");
+                break;
+        }
+        
         request.setAttribute("scriptParams", getScriptParams(PARAMS_FORMAT, new Object[] { "\"default\"" }));
         request.setAttribute("userFound", false);
         getServletContext().getRequestDispatcher(LOGIN_JSP_DIR).forward(request, response);
@@ -137,21 +154,21 @@ public class LoginServlet extends HttpServlet
                         break;
 
                     case EMPTY_INPUT:
-                        request.setAttribute("scriptParams", getScriptParams(PARAMS_FORMAT, new Object[] { "\"empty\"" }));
+//                        request.setAttribute("scriptParams", getScriptParams(PARAMS_FORMAT, new Object[] { "\"empty\"" }));
                         request.setAttribute(USER_FOUND, false);
                         request.setAttribute("alertMessage", "Please provide all required input");
                         getServletContext().getRequestDispatcher(LOGIN_JSP_DIR).forward(request, response);
                         break;
 
                     case NO_USER_FOUND:
-                        request.setAttribute("scriptParams", getScriptParams(PARAMS_FORMAT, new Object[] { "\"no_user_found\"" }));
+//                        request.setAttribute("scriptParams", getScriptParams(PARAMS_FORMAT, new Object[] { "\"no_user_found\"" }));
                         request.setAttribute(USER_FOUND, false);
                         request.setAttribute("warningMessage", "User not found");
                         getServletContext().getRequestDispatcher(LOGIN_JSP_DIR).forward(request, response);
                         break;
 
                     case INACTIVE_USER:
-                        request.setAttribute("scriptParams", getScriptParams(PARAMS_FORMAT, new Object[] { "\"user_inactive\"" }));
+//                        request.setAttribute("scriptParams", getScriptParams(PARAMS_FORMAT, new Object[] { "\"user_inactive\"" }));
                         request.setAttribute(USER_FOUND, false);
                         request.setAttribute("warningMessage", "This account is inactive");
                         getServletContext().getRequestDispatcher(LOGIN_JSP_DIR).forward(request, response);
@@ -174,7 +191,7 @@ public class LoginServlet extends HttpServlet
             HttpSession session = request.getSession();
             
             String userID = request.getParameter(USER_ID),
-                   userPassword = request.getParameter("user-password__input");
+                   userPassword = request.getParameter("password-input__input");
             
             User user = accountService.get(userID);
             
@@ -194,7 +211,7 @@ public class LoginServlet extends HttpServlet
                 return;
             }
             
-            session.setAttribute(USER_ID, request.getParameter(USER_ID));
+            session.setAttribute(Global.USER_ID, request.getParameter(USER_ID));
 
             if(user.isAdmin())
             {
@@ -203,6 +220,7 @@ public class LoginServlet extends HttpServlet
             }
             else
             {
+                System.out.println("----====INVENTORY REDIR====----");
                 response.sendRedirect("inventory");
                 return;
             }

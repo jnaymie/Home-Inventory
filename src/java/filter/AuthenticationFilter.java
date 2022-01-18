@@ -8,6 +8,7 @@ package filter;
 import java.io.IOException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
+import model.Global;
 
 /**
  *
@@ -24,7 +25,7 @@ public class AuthenticationFilter implements Filter
     {
         HttpSession session = ((HttpServletRequest)request).getSession();
         
-        if(session.getAttribute("userID") == null)
+        if(session.getAttribute(Global.USER_ID) == null)
         {
             ((HttpServletResponse)response).sendRedirect("login");
             return;

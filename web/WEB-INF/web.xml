@@ -68,6 +68,10 @@
         <servlet-name>CategoriesServlet</servlet-name>
         <servlet-class>servlet.CategoriesServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AccountCheckerServlet</servlet-name>
+        <servlet-class>servlet.AccountCheckerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -81,7 +85,7 @@
         <url-pattern>/inventory</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>NewAccountServlet</servlet-name>
+        <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/signup</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -99,6 +103,10 @@
     <servlet-mapping>
         <servlet-name>CategoriesServlet</servlet-name>
         <url-pattern>/categories</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountCheckerServlet</servlet-name>
+        <url-pattern>/accountchecker</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

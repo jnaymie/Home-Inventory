@@ -50,7 +50,8 @@ public class UserDB
         EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
         try
         {
-            return (User) entityManager.createNamedQuery("User.findByPhone").setParameter("phone", phone).getResultList().get(0);
+            List<User> user = entityManager.createNamedQuery("User.findByPhone").setParameter("phone", phone).getResultList();
+            return user.size() == 1 ? user.get(0) : null;
         }
         finally
         {

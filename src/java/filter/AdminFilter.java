@@ -8,6 +8,7 @@ package filter;
 import java.io.IOException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
+import model.Global;
 import service.AccountService;
 
 /**
@@ -28,7 +29,7 @@ public class AdminFilter implements Filter
         
         try
         {
-            if(!accountService.get((String)session.getAttribute("userID")).isAdmin())
+            if(!accountService.get((String)session.getAttribute(Global.USER_ID)).isAdmin())
             {
                 ((HttpServletResponse)response).sendRedirect("inventory");
                 return;

@@ -52,7 +52,7 @@ public class ProfileServlet extends HttpServlet
         try
         {
             session.getAttribute(USER_ID);
-            request.setAttribute("user",accountService.get((String)session.getAttribute(USER_ID)));
+            request.setAttribute("user",accountService.get((String)session.getAttribute(Global.USER_ID)));
             request.setAttribute("userImage", "content/images/default_profile.png");
             
         }
@@ -137,7 +137,6 @@ public class ProfileServlet extends HttpServlet
         {
             exception.printStackTrace();
         }
-        
     }
     
     private String extractFileName(Part part)

@@ -60,3 +60,12 @@ function getProfileImage(id)
         return "content/images/user/default_profile.png";
     }
 }
+
+
+function removeAllChildren(element)
+{
+    while(element.firstChild)
+    {
+        element.removeChild(element.firstChild);
+    }
+}
